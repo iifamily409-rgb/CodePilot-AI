@@ -98,11 +98,11 @@ canvas { width: 100%; height: auto; }
 
 export function buildTemplate(template: TemplateId, name: string): Record<string, string> {
   const safeName = name.replace(/[<>&"]/g, "").slice(0, 80) || "Project";
-  const readme = `# ${safeName}\n\nGenerated with CodePilot AI.\n`;
+  const readme = `# ${safeName}\n\nGenerated with X-Flex.\n`;
 
   if (template === "blank") {
     return {
-      "README.md": `# ${safeName}\n\nDescribe your project here, then ask CodePilot AI in Code mode to start building.\n`,
+      "README.md": `# ${safeName}\n\nDescribe your project here, then ask X-Flex in Code mode to start building.\n`,
       "notes.md": "# Notes\n\n- What are you building?\n- What should it do?\n",
     };
   }
@@ -111,7 +111,7 @@ export function buildTemplate(template: TemplateId, name: string): Record<string
     return {
       "package.json": JSON.stringify(
         {
-          name: "codepilot-api",
+          name: "xflex-api",
           version: "1.0.0",
           private: true,
           type: "module",
@@ -129,7 +129,7 @@ export function buildTemplate(template: TemplateId, name: string): Record<string
 
   if (template === "python") {
     return {
-      "main.py": `\"\"\"${safeName} - entry point.\"\"\"\n\n\ndef greet(name: str) -> str:\n    \"\"\"Return a greeting.\"\"\"\n    cleaned = name.strip()\n    if not cleaned:\n        raise ValueError(\"name must not be empty\")\n    return f\"Hello, {cleaned}!\"\n\n\ndef main() -> None:\n    print(greet(\"CodePilot\"))\n\n\nif __name__ == \"__main__\":\n    main()\n`,
+      "main.py": `\"\"\"${safeName} - entry point.\"\"\"\n\n\ndef greet(name: str) -> str:\n    \"\"\"Return a greeting.\"\"\"\n    cleaned = name.strip()\n    if not cleaned:\n        raise ValueError(\"name must not be empty\")\n    return f\"Hello, {cleaned}!\"\n\n\ndef main() -> None:\n    print(greet(\"X-Flex\"))\n\n\nif __name__ == \"__main__\":\n    main()\n`,
       "test_main.py": `import unittest\n\nfrom main import greet\n\n\nclass GreetTests(unittest.TestCase):\n    def test_greet(self):\n        self.assertEqual(greet(\"Ada\"), \"Hello, Ada!\")\n\n    def test_greet_rejects_blank(self):\n        with self.assertRaises(ValueError):\n            greet(\"   \")\n\n\nif __name__ == \"__main__\":\n    unittest.main()\n`,
       "README.md": `# ${safeName}\n\n\`\`\`bash\npython3 -m unittest -v\npython3 main.py\n\`\`\`\n`,
     };
@@ -143,7 +143,7 @@ export function buildTemplate(template: TemplateId, name: string): Record<string
 <main>
   <p style="color:var(--accent);font-weight:600">Now in early access</p>
   <h1>Build something people remember.</h1>
-  <p class="lead">A focused landing page you can edit in CodePilot AI. Change the copy, wire the call to action, then ship.</p>
+  <p class="lead">A focused landing page you can edit in X-Flex. Change the copy, wire the call to action, then ship.</p>
   <a class="button" href="#features">Explore features</a>
   <section id="features" class="grid">
     <div class="card"><h3>Fast</h3><p>Plain HTML, CSS and JavaScript with no build step.</p></div>
@@ -155,7 +155,7 @@ export function buildTemplate(template: TemplateId, name: string): Record<string
       ),
       "style.css": STYLE,
       "app.js": `document.getElementById("year").textContent = new Date().getFullYear();\n`,
-      "README.md": readme.replace("Generated with CodePilot AI.", "Static landing page generated with CodePilot AI."),
+      "README.md": readme.replace("Generated with X-Flex.", "Static landing page generated with X-Flex."),
     };
   }
 
@@ -180,7 +180,7 @@ export function buildTemplate(template: TemplateId, name: string): Record<string
       ),
       "style.css": STYLE,
       "app.js": `const data = [12, 18, 9, 22, 27, 16, 24];\nconst labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];\ndocument.getElementById("metric-projects").textContent = "7";\ndocument.getElementById("metric-tasks").textContent = "128";\ndocument.getElementById("metric-checks").textContent = "96%";\n\nconst canvas = document.getElementById("chart");\nconst ctx = canvas.getContext("2d");\nconst w = canvas.width;\nconst h = canvas.height;\nconst pad = 36;\nconst max = Math.max(...data);\nctx.strokeStyle = "#1e2635";\nctx.beginPath();\nfor (let i = 0; i <= 4; i++) {\n  const y = pad + ((h - pad * 2) / 4) * i;\n  ctx.moveTo(pad, y);\n  ctx.lineTo(w - pad, y);\n}\nctx.stroke();\nctx.beginPath();\ndata.forEach((value, index) => {\n  const x = pad + ((w - pad * 2) / (data.length - 1)) * index;\n  const y = h - pad - ((h - pad * 2) * value) / max;\n  if (index === 0) ctx.moveTo(x, y);\n  else ctx.lineTo(x, y);\n});\nconst gradient = ctx.createLinearGradient(0, 0, w, 0);\ngradient.addColorStop(0, "#22d3ee");\ngradient.addColorStop(1, "#a78bfa");\nctx.strokeStyle = gradient;\nctx.lineWidth = 3;\nctx.stroke();\nctx.fillStyle = "#93a1b1";\nctx.font = "12px system-ui";\nlabels.forEach((label, index) => {\n  const x = pad + ((w - pad * 2) / (data.length - 1)) * index;\n  ctx.fillText(label, x - 10, h - 12);\n});\n`,
-      "README.md": readme.replace("Generated with CodePilot AI.", "Static dashboard generated with CodePilot AI."),
+      "README.md": readme.replace("Generated with X-Flex.", "Static dashboard generated with X-Flex."),
     };
   }
 
@@ -204,7 +204,7 @@ export function buildTemplate(template: TemplateId, name: string): Record<string
       ),
       "style.css": STYLE,
       "app.js": `console.log("Portfolio ready");\n`,
-      "README.md": readme.replace("Generated with CodePilot AI.", "Portfolio generated with CodePilot AI."),
+      "README.md": readme.replace("Generated with X-Flex.", "Portfolio generated with X-Flex."),
     };
   }
 
@@ -218,7 +218,7 @@ export function buildTemplate(template: TemplateId, name: string): Record<string
       "style.css": STYLE,
       "posts.js": `export const posts = [\n  {\n    title: "Hello, world",\n    date: "2026-01-01",\n    summary: "The first post on this static blog.",\n    body: "Edit posts.js to publish real writing. Everything stays local.",\n  },\n];\n`,
       "app.js": `import { posts } from "./posts.js";\n\nconst container = document.getElementById("posts");\nfor (const post of posts) {\n  const article = document.createElement("article");\n  article.className = "card";\n  const heading = document.createElement("h3");\n  heading.textContent = post.title;\n  const meta = document.createElement("p");\n  meta.textContent = post.date;\n  const summary = document.createElement("p");\n  summary.textContent = post.summary;\n  article.append(heading, meta, summary);\n  container.append(article);\n}\n`,
-      "README.md": readme.replace("Generated with CodePilot AI.", "Static blog generated with CodePilot AI."),
+      "README.md": readme.replace("Generated with X-Flex.", "Static blog generated with X-Flex."),
     };
   }
 
@@ -253,7 +253,7 @@ export function buildTemplate(template: TemplateId, name: string): Record<string
       `<header class="site"><div class="logo">${safeName}<span>.</span></div><nav><a href="#about">About</a> <a href="#contact">Contact</a></nav></header>
 <main>
   <h1>${safeName}</h1>
-  <p class="lead">This is a working static website: semantic HTML, responsive CSS and a small script. Replace the copy and ask CodePilot AI in Code mode to extend it.</p>
+  <p class="lead">This is a working static website: semantic HTML, responsive CSS and a small script. Replace the copy and ask X-Flex in Code mode to extend it.</p>
   <section id="about" class="grid">
     <div class="card"><h3>Responsive</h3><p>Fluid type and a grid that adapts to small screens.</p></div>
     <div class="card"><h3>Accessible</h3><p>Real headings, landmarks and keyboard-friendly links.</p></div>

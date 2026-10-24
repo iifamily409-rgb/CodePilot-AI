@@ -42,6 +42,48 @@ export function ProviderManager() {
     setForm((prev) => ({ ...prev, protocol: id, baseUrl: protocol?.url ?? prev.baseUrl }));
   }
 
+  function preset(protocolId: string) {
+    const protocol = PROTOCOLS.find((p) => p.id === protocolId);
+    setForm((prev) => ({
+      ...prev,
+      name: protocol?.label ?? prev.name,
+      protocol: protocolId,
+      baseUrl: protocol?.url ?? prev.baseUrl,
+      authType: protocolId === "ollama" || protocolId === "opencode" ? "none" : "bearer",
+      apiKey: "",
+    }));
+    setShowForm(true);
+    setNotice(null);
+  }
+
+  async function addOllama() {
+    setBusy("ollama");
+    setError(null);
+    try {
+      const data = await api<any>("/api/providers", {
+        method: "POST",
+        body: {
+          name: "Local Ollama",
+          protocol: "ollama",
+          baseUrl: "http://localhost:11434",
+          authType: "none",
+          apiKey: null,
+          discover: true,
+        },
+      });
+      setNotice(
+        data.discovery?.error
+          ? `Ollama provider saved, but discovery failed: ${data.discovery.error}. Start it with \`ollama serve\`.`
+          : `Ollama connected. ${data.discovery?.count ?? 0} local models discovered.`,
+      );
+      await load();
+    } catch (err) {
+      setError(errorMessage(err));
+    } finally {
+      setBusy(null);
+    }
+  }
+
   async function create() {
     setBusy("create");
     try {
@@ -149,7 +191,18 @@ export function ProviderManager() {
           <h1 className="text-2xl font-bold">AI Provider Manager</h1>
           <p className="mt-1 text-sm text-muted">Multiple providers and models are supported. Keys are encrypted at rest and never returned to the browser.</p>
         </div>
-        <button type="button" onClick={() => setShowForm((v) => !v)} className="cp-btn cp-btn-primary">Add provider</button>
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={addOllama}
+            disabled={busy === "ollama"}
+            className="cp-btn cp-btn-subtle"
+            title="Create a local Ollama provider at http://localhost:11434"
+          >
+            {busy === "ollama" ? <Spinner /> : null}Quick add Ollama
+          </button>
+          <button type="button" onClick={() => setShowForm((v) => !v)} className="cp-btn cp-btn-primary">Add provider</button>
+        </div>
       </div>
       {error ? <p className="rounded-lg border border-border bg-surface p-3 text-sm text-danger">{error}</p> : null}
       {notice ? <p className="rounded-lg border border-border bg-surface p-3 text-sm text-success">{notice}</p> : null}
@@ -163,6 +216,11 @@ export function ProviderManager() {
               <select className="cp-input" value={form.protocol} onChange={(e) => pickProtocol(e.target.value)}>
                 {PROTOCOLS.map((p) => <option key={p.id} value={p.id}>{p.label}</option>)}
               </select>
+              <div className="mt-1 flex flex-wrap gap-1.5">
+                {PROTOCOLS.map((p) => (
+                  <button key={p.id} type="button" onClick={() => preset(p.id)} className="cp-badge hover:text-fg">{p.label}</button>
+                ))}
+              </div>
             </div>
             <div><label className="cp-label">Base URL</label><input className="cp-input font-mono text-xs" value={form.baseUrl} onChange={(e) => setForm({ ...form, baseUrl: e.target.value })} /></div>
             <div>

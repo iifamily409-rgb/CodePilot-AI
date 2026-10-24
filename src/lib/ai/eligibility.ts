@@ -23,9 +23,9 @@ const REASON: Record<PricingStatus, string> = {
   verified_free:
     "Verified zero-cost in the provider's own catalog (input and output price are 0).",
   local:
-    "Self-hosted or local runtime: no per-token inference charge is applied by CodePilot AI.",
+    "Self-hosted or local runtime: no per-token inference charge is applied by X-Flex.",
   unverified:
-    "Pricing could not be verified from provider metadata. CodePilot AI will not send requests to unverified models. Mark the model as verified free only if you have confirmed with your provider that it is zero-cost, or configure a local runtime.",
+    "Pricing could not be verified from provider metadata. X-Flex will not send requests to unverified models. Mark the model as verified free only if you have confirmed with your provider that it is zero-cost, or configure a local runtime.",
   paid:
     "The provider catalog reports a non-zero price for this model. Paid inference is blocked by the free-only policy.",
 };

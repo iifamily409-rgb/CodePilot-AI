@@ -48,6 +48,8 @@ export function constantTimeEqual(a: string, b: string): boolean {
 }
 
 function encryptionKey(): Buffer {
+  // The derivation context is intentionally stable across the X-Flex rename so
+  // provider keys and GitHub tokens encrypted by earlier builds stay readable.
   return crypto.scryptSync(appSecret(), "codepilot-credential-encryption-v1", 32);
 }
 

@@ -25,7 +25,7 @@ export async function gh<T = any>(token: string, path: string, options: GhOption
       authorization: `Bearer ${token}`,
       accept: options.accept ?? "application/vnd.github+json",
       "x-github-api-version": "2022-11-28",
-      "user-agent": "CodePilotAI/0.1",
+      "user-agent": "X-Flex/0.1",
       ...(options.body === undefined ? {} : { "content-type": "application/json" }),
     },
     body: options.body === undefined ? undefined : JSON.stringify(options.body),

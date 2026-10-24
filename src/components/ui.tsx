@@ -139,11 +139,11 @@ export function Logo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
   const sizes = { sm: "text-base", md: "text-lg", lg: "text-2xl" };
   return (
     <span className={cx("inline-flex items-center gap-2 font-bold tracking-tight", sizes[size])}>
-      <span className="grid h-7 w-7 place-items-center rounded-lg bg-linear-to-br from-accent to-violet text-[13px] font-black text-[#04121a]">
-        CP
+      <span className="grid h-7 w-7 place-items-center rounded-lg bg-linear-to-br from-accent to-violet text-[12px] font-black text-[#04121a]">
+        XF
       </span>
       <span>
-        CodePilot<span className="text-accent"> AI</span>
+        X<span className="text-accent">-Flex</span>
       </span>
     </span>
   );

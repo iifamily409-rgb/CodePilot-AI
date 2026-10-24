@@ -9,7 +9,7 @@ import { migrations } from "./migrations";
 export type DB = Database.Database;
 
 declare global {
-  var __codepilotDb: DB | undefined;
+  var __xflexDb: DB | undefined;
 }
 
 function resolveDbPath(): string {
@@ -23,17 +23,17 @@ function resolveDbPath(): string {
     return resolved;
   }
   fs.mkdirSync(DATA_DIR, { recursive: true });
-  return path.join(DATA_DIR, "codepilot.db");
+  return path.join(DATA_DIR, "xflex.db");
 }
 
 export function getDb(): DB {
-  if (global.__codepilotDb) return global.__codepilotDb;
+  if (global.__xflexDb) return global.__xflexDb;
   const db = new Database(resolveDbPath());
   db.pragma("journal_mode = WAL");
   db.pragma("foreign_keys = ON");
   db.pragma("busy_timeout = 5000");
   runMigrations(db);
-  global.__codepilotDb = db;
+  global.__xflexDb = db;
   return db;
 }
 
@@ -83,8 +83,8 @@ export function newId(prefix = ""): string {
 
 /** Used by tests to get a clean database. */
 export function resetDbForTests(): void {
-  if (global.__codepilotDb) {
-    global.__codepilotDb.close();
-    global.__codepilotDb = undefined;
+  if (global.__xflexDb) {
+    global.__xflexDb.close();
+    global.__xflexDb = undefined;
   }
 }

@@ -14,7 +14,7 @@ export function ThemeToggle() {
     const next = theme === "dark" ? "light" : "dark";
     document.documentElement.setAttribute("data-theme", next);
     try {
-      localStorage.setItem("codepilot-theme", next);
+      localStorage.setItem("xflex-theme", next);
     } catch {
       // storage may be unavailable
     }

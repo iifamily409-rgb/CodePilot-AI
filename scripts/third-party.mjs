@@ -19,7 +19,7 @@ for (const name of [...names].sort()) {
 
 const content = `# Third-party notices
 
-CodePilot AI is MIT licensed. It depends on the packages below, each under its own license.
+X-Flex is MIT licensed. It depends on the packages below, each under its own license.
 
 This file lists **direct** dependencies declared in \`package.json\`. Transitive dependencies carry their own licenses in \`node_modules\`; run \`scripts/third-party.mjs\` after changing dependencies and review the full dependency tree before redistributing a build.
 

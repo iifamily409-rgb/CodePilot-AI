@@ -3,33 +3,33 @@ import Link from "next/link";
 import { PageHero, Section } from "@/components/marketing";
 import { Alert } from "@/components/ui";
 
-export const metadata: Metadata = { title: "Getting started" };
+export const metadata: Metadata = { title: "Local setup" };
 
 const STEPS = [
   {
-    title: "1. Run it locally",
-    body: "Requires Node.js 22.5 or newer (Node 24 recommended) and npm.",
-    code: `git clone https://github.com/iifamily409-rgb/CodePilot-AI.git\ncd CodePilot-AI\nnpm install\ncp .env.example .env\n# set APP_SECRET\nnpm run db:migrate\nnpm run dev`,
+    title: "1. Install and start",
+    body: "Node.js 22.5+ (24 recommended) and npm. No hosting account is required for local use.",
+    code: `npm install\ncp .env.example .env\n# set APP_SECRET: openssl rand -base64 48\nnpm run db:migrate\nnpm run dev   # http://localhost:3000`,
   },
   {
     title: "2. Create your account",
-    body: "Open http://localhost:3000/sign-up. Product authentication is separate from GitHub authorization; you can create projects without GitHub.",
+    body: "Open /sign-up. This account is local to your instance; it is separate from GitHub authorization.",
   },
   {
     title: "3. Add an eligible model",
-    body: "Open Providers → Add provider. For OpenRouter paste a key and press Discover: only zero-price models stay eligible. For Ollama, use base URL http://localhost:11434 and start ollama serve.",
+    body: "Go to Providers. Use the Ollama preset if you have a local runtime, or add OpenRouter with an API key. Press Test, then refresh models. Only verified-free or local models stay selectable.",
   },
   {
-    title: "4. (Optional) connect GitHub",
-    body: "Register a GitHub App with Contents read/write, Metadata read and Pull requests read/write plus the user-authorization callback. Fill GITHUB_APP_ID, GITHUB_APP_PRIVATE_KEY, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET and GITHUB_APP_SLUG, then restart and connect from Integrations.",
+    title: "4. Create a project and chat",
+    body: "Create a project from a template, open the editor, and ask in Code mode to extend it. Run a check from the project page and review the diff.",
   },
   {
-    title: "5. (Optional) enable commands",
-    body: "Set EXECUTION_ENABLED=1 only on a host or container you control. Commands run inside the project workspace with a timeout, an output cap and secret-scrubbed environment.",
+    title: "5. Optional: GitHub",
+    body: "Register a GitHub App with contents, metadata and pull-request permissions, set the callback to /api/github/callback, fill the GITHUB_* variables, restart, then connect from Integrations. Access is limited to the repositories you select.",
   },
   {
-    title: "6. Create a project and chat",
-    body: "Create a project from a template, open it in the editor, then ask the agent in Code mode to extend it. Run npm test from the project page, review the diff, and download a ZIP or publish to a new branch.",
+    title: "6. Optional: commands and research",
+    body: "Set EXECUTION_ENABLED=1 to allow the local test/build runner. Point SEARXNG_URL at a self-hosted SearXNG instance for keyless research, or add a Brave/Tavily key.",
   },
 ];
 
@@ -37,9 +37,9 @@ export default function GettingStartedPage() {
   return (
     <>
       <PageHero
-        eyebrow="Getting started"
-        title="A working instance in about ten minutes"
-        description="The default deployment is a single Next.js process with a SQLite database and an encrypted-secret directory. No paid service is required."
+        eyebrow="Local setup"
+        title="Running on your own machine"
+        description="X-Flex stores everything under the data directory in this repository. Local development needs no public URL and no third-party account except an AI provider."
       >
         <Link href="/sign-up" className="cp-btn cp-btn-primary">Create an account</Link>
         <Link href="/docs" className="cp-btn cp-btn-ghost">Configuration reference</Link>
@@ -57,12 +57,15 @@ export default function GettingStartedPage() {
           ))}
         </div>
         <div className="mt-6">
-          <Alert tone="warning" title="No mandatory credit card">
-            CodePilot AI itself never charges you. Some providers you may choose (for example certain hosted inference APIs) require their
-            own account, and some may ask for payment details on their side. Local runtimes and OpenRouter&apos;s zero-price models do not
-            require payment to CodePilot AI. Check each provider&apos;s real terms before configuring it.
+          <Alert tone="info" title="You can stay offline">
+            GitHub, research, and public deployment are optional. A local Ollama model and a new project are enough to use
+            chat, editing, diffs and test execution entirely on your machine.
           </Alert>
         </div>
+        <p className="mt-6 text-xs text-muted">
+          Nothing in this setup requires payment to X-Flex. Providers you configure may impose their own quotas or charges;
+          check their terms before adding a key.
+        </p>
       </Section>
     </>
   );

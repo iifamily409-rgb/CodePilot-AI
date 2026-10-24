@@ -64,19 +64,32 @@ export function ChatWorkspace({ initialChatId }: { initialChatId?: string }) {
   const [streamCitations, setStreamCitations] = useState<Citation[]>([]);
   const [status, setStatus] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const abortRef = useRef<AbortController | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const eligibleModels = useMemo(() => models.filter((m) => m.pricingStatus === "verified_free" || m.pricingStatus === "local"), [models]);
 
-  const loadChat = useCallback(async (id: string) => {
+  const loadChat = useCallback(async (id: string, modelOptions: ModelOption[] = []) => {
     setError(null);
+    setNotice(null);
     try {
       const data = await api<{ chat: Chat; messages: any[] }>(`/api/chats/${id}`);
       setActive(data.chat);
       setMode(data.chat.mode);
-      setModelRef(data.chat.model_ref ?? "");
+      const eligible = modelOptions.filter(
+        (m) => m.pricingStatus === "verified_free" || m.pricingStatus === "local",
+      );
+      const saved = data.chat.model_ref ?? "";
+      if (saved && eligible.length && !eligible.some((m) => m.ref === saved)) {
+        setModelRef(eligible[0].ref);
+        setNotice(
+          `This conversation was saved with a model that is no longer eligible under the free-only policy. Switched to ${eligible[0].displayName}; choose another eligible model above if you prefer.`,
+        );
+      } else {
+        setModelRef(saved || eligible[0]?.ref || "");
+      }
       setProjectId(data.chat.project_id ?? "");
       setRepositoryId(data.chat.repository_id ?? "");
       setBranch(data.chat.branch ?? "");
@@ -117,7 +130,7 @@ export function ChatWorkspace({ initialChatId }: { initialChatId?: string }) {
         setRepos(repoData.repositories);
         const eligible = modelData.models.filter((m) => m.pricingStatus === "verified_free" || m.pricingStatus === "local");
         if (initialChatId) {
-          await loadChat(initialChatId);
+          await loadChat(initialChatId, eligible);
         } else if (eligible.length) {
           setModelRef((current) => current || eligible[0].ref!);
         }
@@ -363,7 +376,7 @@ export function ChatWorkspace({ initialChatId }: { initialChatId?: string }) {
           {chats.length === 0 ? <p className="p-2 text-xs text-muted">No conversations yet.</p> : null}
           {chats.map((chat) => (
             <div key={chat.id} className={cx("group rounded-lg border p-2 text-xs", active?.id === chat.id ? "border-[color-mix(in_oklab,var(--accent)_45%,transparent)] bg-[color-mix(in_oklab,var(--accent)_9%,transparent)]" : "border-transparent hover:bg-surface2")}>
-              <button type="button" onClick={() => loadChat(chat.id)} className="block w-full truncate text-left font-medium">
+              <button type="button" onClick={() => loadChat(chat.id, eligibleModels)} className="block w-full truncate text-left font-medium">
                 {chat.title}
               </button>
               <div className="mt-1 flex items-center justify-between gap-1 text-[10px] text-muted">
@@ -405,6 +418,7 @@ export function ChatWorkspace({ initialChatId }: { initialChatId?: string }) {
             value={modelRef}
             onChange={(e) => {
               setModelRef(e.target.value);
+              setNotice(null);
               if (active) void updateActive({ modelRef: e.target.value || null });
             }}
             aria-label="Model"
@@ -521,6 +535,9 @@ export function ChatWorkspace({ initialChatId }: { initialChatId?: string }) {
         </div>
 
         <div className="border-t border-border p-3">
+          {notice ? (
+            <p className="mb-2 rounded-lg border border-border bg-surface2 p-2 text-xs text-muted">{notice}</p>
+          ) : null}
           {error && messages.length > 0 ? (
             <p className="mb-2 rounded-lg border border-[color-mix(in_oklab,var(--danger)_40%,transparent)] bg-[color-mix(in_oklab,var(--danger)_8%,transparent)] p-2 text-xs text-danger">{error}</p>
           ) : null}

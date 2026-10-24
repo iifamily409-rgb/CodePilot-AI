@@ -3,12 +3,12 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "CodePilot AI — Imagine. Code. Verify.",
-    template: "%s · CodePilot AI",
+    default: "X-Flex — Imagine. Code. Verify.",
+    template: "%s · X-Flex",
   },
   description:
     "A free-only, GitHub-connected AI coding platform. Chat with an agent, inspect repositories, edit code, run checks and publish only what you approve.",
-  applicationName: "CodePilot AI",
+  applicationName: "X-Flex",
   robots: { index: true, follow: true },
 };
 
@@ -21,7 +21,7 @@ export const viewport: Viewport = {
 const themeScript = `
 (function () {
   try {
-    var stored = localStorage.getItem('codepilot-theme');
+    var stored = localStorage.getItem('xflex-theme');
     var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
     var theme = stored || (prefersLight ? 'light' : 'dark');
     document.documentElement.setAttribute('data-theme', theme);

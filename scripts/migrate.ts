@@ -6,7 +6,7 @@ import { migrations } from "../src/lib/db/migrations.ts";
 const dbPath =
   process.env.DATABASE_PATH && process.env.DATABASE_PATH !== ":memory:"
     ? path.resolve(process.env.DATABASE_PATH)
-    : path.resolve(process.cwd(), "data", "codepilot.db");
+    : path.resolve(process.cwd(), "data", "xflex.db");
 
 fs.mkdirSync(path.dirname(dbPath), { recursive: true });
 const db = new Database(dbPath);

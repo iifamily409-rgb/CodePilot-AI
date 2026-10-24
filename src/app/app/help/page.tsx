@@ -11,7 +11,7 @@ const FAQ = [
   },
   {
     q: "Why did the agent refuse to run a command?",
-    a: "Execution uses a strict allowlist: npm test, npm run test|build|lint|typecheck|format|check|start|dev, npx tsc --noEmit, node --test, node <file>, python3 -m unittest, python3 -m pytest, pytest, and version checks. Shell operators, pipes and redirection are rejected. The operator must also set EXECUTION_ENABLED=1.",
+    a: "Execution uses a strict allowlist: npm test, npm run test|build|lint|typecheck|format|check|start|dev, npx tsc --noEmit, node --test, node <file>, python3 -m unittest, python3 -m pytest, pytest, and version checks. Shell operators, pipes and redirection are rejected. Execution is opt-in and must be enabled on the server with EXECUTION_ENABLED=1.",
   },
   {
     q: "Where are my files stored?",
@@ -26,12 +26,12 @@ const FAQ = [
     a: "Configure SEARXNG_URL (self-hosted, recommended) or a Brave/Tavily key. The DuckDuckGo fallback is unofficial and may rate-limit. The agent never invents a source when search fails.",
   },
   {
-    q: "Does CodePilot AI cost anything?",
-    a: "No subscription, ads or checkout. You provide model access. Third-party providers may charge you directly under their own terms — CodePilot AI cannot detect every billing arrangement, so check before configuring an endpoint.",
+    q: "Does X-Flex cost anything?",
+    a: "No subscription, ads or checkout. You provide model access. Third-party providers may charge you directly under their own terms — X-Flex cannot detect every billing arrangement, so check before configuring an endpoint.",
   },
   {
     q: "Something looks broken or unsafe.",
-    a: "Report security issues privately to [SECURITY CONTACT EMAIL]. For functional bugs, open a repository issue with reproduction steps and redacted logs.",
+    a: "Use a private security advisory on the source repository. For functional bugs, keep your own notes: this is a personal build without a support desk.",
   },
 ];
 
@@ -58,8 +58,6 @@ export default function HelpPage() {
         <ul className="mt-2 space-y-1 text-sm">
           <li><Link href="/docs" className="cp-link">Configuration and API reference</Link></li>
           <li><Link href="/getting-started" className="cp-link">Local installation</Link></li>
-          <li><Link href="/security" className="cp-link">Security model and limitations</Link></li>
-          <li><Link href="/contact" className="cp-link">Contact and support</Link></li>
         </ul>
       </Card>
     </div>

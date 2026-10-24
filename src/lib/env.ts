@@ -8,8 +8,8 @@ import crypto from "node:crypto";
  * Secrets are read lazily so that builds do not require production credentials.
  */
 
-export const DATA_DIR = process.env.CODEPILOT_DATA_DIR
-  ? path.resolve(process.env.CODEPILOT_DATA_DIR)
+export const DATA_DIR = process.env.XFLEX_DATA_DIR
+  ? path.resolve(process.env.XFLEX_DATA_DIR)
   : path.resolve(process.cwd(), "data");
 
 export function dataPath(...parts: string[]): string {

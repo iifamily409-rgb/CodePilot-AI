@@ -153,7 +153,7 @@ async function* ollamaStream(req: ChatRequest): AsyncGenerator<StreamDelta> {
 async function* openCodeStream(req: ChatRequest): AsyncGenerator<StreamDelta> {
   const session = await providerJson(req.provider, "/session", {
     method: "POST",
-    body: { title: "CodePilot AI" },
+    body: { title: "X-Flex" },
   });
   const sessionId = session.data?.id;
   if (!sessionId) {

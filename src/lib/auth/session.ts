@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { getDb, newId, nowIso, one } from "../db";
 import { constantTimeEqual, randomToken, sha256 } from "../crypto";
 
-export const SESSION_COOKIE = "codepilot_session";
+export const SESSION_COOKIE = "xflex_session";
 export const CSRF_HEADER = "x-csrf-token";
 const SESSION_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 const TOUCH_INTERVAL_MS = 5 * 60 * 1000;

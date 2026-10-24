@@ -99,7 +99,7 @@ function singleRequest(
         port: url.port || (url.protocol === "https:" ? 443 : 80),
         path: `${url.pathname}${url.search}`,
         method: opts.method,
-        headers: { "user-agent": "CodePilotAI/0.1", ...opts.headers },
+        headers: { "user-agent": "X-Flex/0.1", ...opts.headers },
         ...(lookup ? { lookup } : {}),
         servername: url.protocol === "https:" ? url.hostname : undefined,
         timeout: opts.timeoutMs,

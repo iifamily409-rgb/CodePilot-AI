@@ -1,44 +1,36 @@
-# Security Policy
+# Security
 
-## Supported versions
+X-Flex is a personal-use, self-hosted build. This document describes the implemented controls and how to report a problem.
 
-| Version | Supported |
-| --- | --- |
-| 0.1.x | Yes (current development line) |
+## Reporting
 
-Older snapshots and unaudited forks are not supported. Operators are responsible for keeping their deployment patched.
+Use a **private security advisory** on the source repository. Do not open a public issue for an unpatched vulnerability.
+Include the affected version or commit, reproduction steps, and configuration with secrets removed. This is a
+best-effort personal project: there is no SLA, bug bounty, or contractual support.
 
-## Reporting a vulnerability
+## Implemented controls
 
-**Do not open a public issue for an unpatched vulnerability.**
+- scrypt password hashing; opaque session tokens stored only as SHA-256 hashes; HttpOnly, SameSite=Lax cookies; revocation on password change.
+- CSRF double-submit token plus Origin/Host checks on every mutating API route.
+- Per-user ownership checks for projects, chats, repositories, providers, messages, tasks and changes.
+- AES-256-GCM encryption for provider keys and GitHub tokens, derived from `APP_SECRET`; secrets never returned by the API.
+- SSRF protection with scheme/host validation, single DNS resolution, private/loopback/metadata range blocking, pinned connections and re-validated redirects.
+- Path confinement: traversal, absolute paths, symlink escapes and ignored directories rejected; 512 KB editor limit.
+- Execution allowlist without a shell, scrubbed environment, timeout, output cap, process-group kill and optional network namespace isolation.
+- Secret redaction in errors, logs and stored assistant output; secret files excluded from commits.
+- Prompt-injection resistance: retrieved pages and repository content are wrapped as untrusted data and cannot grant permissions.
+- Fixed-window rate limits in SQLite; audit records with hashed client IPs.
 
-Email: **[SECURITY CONTACT EMAIL]** (placeholder — the operator must set a monitored address before public launch).
+## Known boundaries (not vulnerabilities by themselves)
 
-Include:
-
-- affected version or commit,
-- a clear description of the issue and its impact,
-- reproduction steps (minimal, without other users' data),
-- relevant configuration (redact secrets),
-- whether you intend to disclose publicly and your preferred timeline.
-
-## What to expect
-
-- Acknowledgement target: 5 business days. This is a best-effort open-source process, not a contractual SLA.
-- We will confirm the issue, discuss remediation, and coordinate disclosure.
-- Do not test against other users' data, degrade availability, or access data beyond what is necessary to demonstrate the issue.
-- Good-faith research conducted under this policy will not be pursued legally by the project, to the extent permitted by law.
-
-## Known design boundaries
-
-These are documented limitations, not vulnerabilities in themselves:
-
-- The local command runner is **not** a hardened multi-tenant sandbox. Enable it only on a host you control.
+- The local runner is **not** a hardened multi-tenant sandbox. Do not enable it on shared infrastructure.
 - Background agent tasks run in-process and do not survive a restart.
+- `ALLOW_PRIVATE_CUSTOM_ENDPOINTS=1` intentionally weakens SSRF protection. Leave it off.
 - The DuckDuckGo research fallback uses an unofficial endpoint.
-- Third-party providers receive prompt and file content you choose to send.
-- `ALLOW_PRIVATE_CUSTOM_ENDPOINTS=1` intentionally weakens SSRF protection. Do not enable it on a multi-user instance.
+- Model providers receive the prompts and file content you send them; choose providers you trust.
+- Password recovery requires an email channel the operator configures; without it, production recovery is unavailable.
 
-## Security controls implemented
+## Deployment hygiene
 
-Scrypt password hashing, hashed session tokens, HttpOnly cookies, CSRF double-submit, per-user ownership checks, AES-256-GCM credential encryption, secret redaction, SSRF protection with DNS pinning, path-traversal and symlink-escape rejection, execution allowlists with resource limits, rate limiting, and audit logging with hashed IPs. See `/security` on the running instance and `src/lib/security/` in the repository.
+Use HTTPS, a unique `APP_SECRET` of 48+ random bytes, a private data directory, and encrypted backups. Rotate GitHub App
+keys if a token is exposed. Keep Node.js and dependencies updated.

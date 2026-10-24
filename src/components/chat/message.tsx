@@ -114,7 +114,7 @@ export function MessageBubble({
   return (
     <div className={cx("cp-fade-in rounded-2xl border border-border bg-surface px-4 py-3")}>
       <div className="mb-1 flex flex-wrap items-center gap-2 text-xs text-muted">
-        <span className="font-semibold text-fg">CodePilot AI</span>
+        <span className="font-semibold text-fg">X-Flex</span>
         {message.status ? <StatusPill status={message.status} /> : null}
         {message.model_ref ? <Badge>{message.model_ref.split("::").slice(1).join("::")}</Badge> : null}
         {projectId ? <Link href={`/app/projects/${projectId}?tab=review`} className="cp-link">Review changes</Link> : null}

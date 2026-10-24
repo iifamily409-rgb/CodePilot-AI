@@ -59,7 +59,7 @@ export function IntegrationsPanel({ configured, mode, research, execution }: { c
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <div className="flex items-center gap-2"><h2 className="font-semibold">GitHub</h2><Badge tone={configured ? "success" : "warning"}>{configured ? mode === "github_app" ? "GitHub App mode" : "OAuth app mode" : "Not configured on server"}</Badge></div>
-            <p className="mt-1 max-w-2xl text-sm text-muted">Authorization is separate from your CodePilot AI login. With a GitHub App, access is limited to the repositories you select during installation. Publishing always creates a new branch.</p>
+            <p className="mt-1 max-w-2xl text-sm text-muted">Authorization is separate from your X-Flex login. With a GitHub App, access is limited to the repositories you select during installation. Publishing always creates a new branch.</p>
             {github ? <p className="mt-2 text-sm">Connected as <strong>{github.login}</strong></p> : null}
           </div>
           <div className="flex flex-wrap gap-2">

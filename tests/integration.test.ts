@@ -2,7 +2,6 @@ import { beforeEach, describe, expect, it } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
 import { getDb, newId, nowIso } from "@/lib/db";
-import { LEGAL_DOCS, LEGAL_PLACEHOLDERS, unresolvedPlaceholders, legalIsFinal } from "@/content/legal";
 import { createProvider, setModelPricingStatus, listModels } from "@/lib/providers";
 import { pages } from "./helpers/routes";
 
@@ -23,54 +22,41 @@ beforeEach(() => {
   getDb().exec("DELETE FROM provider_models; DELETE FROM providers; DELETE FROM users;");
 });
 
-describe("legal documents", () => {
-  it("exposes terms, privacy and acceptable use with explicit placeholders", () => {
-    expect(Object.keys(LEGAL_DOCS).sort()).toEqual(["acceptable-use", "privacy", "terms"]);
-    for (const doc of Object.values(LEGAL_DOCS)) {
-      expect(doc.body.length).toBeGreaterThan(2000);
-      expect(doc.body).toContain("[OPERATOR LEGAL NAME]");
-      expect(unresolvedPlaceholders(doc.body).length).toBeGreaterThan(0);
-    }
-    expect(LEGAL_DOCS.terms.body).toMatch(/free-only policy/i);
-    expect(LEGAL_DOCS.terms.body).toMatch(/Limitation of liability/i);
-    expect(LEGAL_DOCS.privacy.body).toMatch(/model providers/i);
-    expect(LEGAL_DOCS.privacy.body).toMatch(/account deletion/i);
-  });
-
-  it("never presents an unfinished draft as final", () => {
-    expect(legalIsFinal(LEGAL_DOCS.terms.body)).toBe(false);
-    expect(LEGAL_PLACEHOLDERS.length).toBeGreaterThanOrEqual(6);
-  });
-
-  it("keeps markdown copies in the repository in sync with the content", () => {
-    for (const doc of Object.values(LEGAL_DOCS)) {
-      const file = path.join(root, "docs", "legal", `${doc.slug}.md`);
-      expect(fs.existsSync(file)).toBe(true);
-      expect(fs.readFileSync(file, "utf8").trim()).toBe(doc.body.trim());
-    }
-  });
-
-  it("routes every public and legal page", () => {
-    for (const route of [
-      "/", "/features", "/how-it-works", "/docs", "/getting-started", "/integrations",
-      "/security", "/changelog", "/contact",
-      "/sign-in", "/sign-up",
-    ]) {
+describe("project surface", () => {
+  it("keeps the public surface small and personal-use focused", () => {
+    for (const route of ["/", "/docs", "/getting-started", "/changelog", "/sign-in", "/sign-up"]) {
       expect(pages, `missing page for ${route}`).toContain(route);
     }
-    // Legal documents are served by one dynamic route with static params.
-    const legalPage = read("src/app/(marketing)/legal/[doc]/page.tsx");
-    expect(legalPage).toContain("generateStaticParams");
-    expect(legalPage).toContain("LEGAL_DOCS");
+    expect(pages.some((route) => route.startsWith("/legal"))).toBe(false);
   });
 
-  it("ships the required repository documents", () => {
-    for (const file of ["LICENSE", "README.md", "SECURITY.md", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md", "THIRD_PARTY_NOTICES.md", ".env.example", "docs/DEPLOYMENT-CHECKLIST.md"]) {
+  it("does not ship legal, sales or support infrastructure", () => {
+    for (const entry of [
+      "src/app/(marketing)/legal",
+      "src/content/legal",
+      "docs/legal",
+      "src/app/(marketing)/contact",
+      "src/app/(marketing)/features",
+    ]) {
+      expect(fs.existsSync(path.join(root, entry)), entry).toBe(false);
+    }
+    const source = [
+      read("src/components/site-footer.tsx"),
+      read("src/app/sign-up/page.tsx"),
+      read("src/app/sign-in/page.tsx"),
+      read("src/app/app/help/page.tsx"),
+    ].join(String.fromCharCode(10));
+    expect(source).not.toMatch(/\/legal\/|Terms of Service|Privacy Policy|Acceptable Use/);
+  });
+
+  it("ships the required repository documents with placeholders only", () => {
+    for (const file of ["LICENSE", "README.md", ".env.example", ".gitignore", "docs/ARCHITECTURE.md"]) {
       expect(fs.existsSync(path.join(root, file)), file).toBe(true);
     }
     expect(read("LICENSE")).toMatch(/MIT License/);
-    expect(read("LICENSE")).toContain("[COPYRIGHT HOLDER");
     expect(read(".env.example")).not.toMatch(/APP_SECRET=[A-Za-z0-9+/]{20,}/);
+    expect(read(".env.example")).not.toContain("LEGAL_PLACEHOLDERS_RESOLVED");
+    expect(read("README.md")).toContain("X-Flex");
   });
 });
 

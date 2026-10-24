@@ -1,8 +1,8 @@
 {
-  "name": "codepilot-ai",
-  "version": "0.1.0",
+  "name": "x-flex",
+  "version": "0.2.0",
   "private": true,
-  "description": "CodePilot AI — free-only, GitHub-connected AI coding platform. Imagine. Code. Verify.",
+  "description": "X-Flex — a personal-use, free-only AI coding workspace: chat, providers, GitHub, projects, editor and review.",
   "license": "MIT",
   "engines": {
     "node": ">=22.5.0"
@@ -16,8 +16,7 @@
     "db:migrate": "node scripts/migrate.ts",
     "test": "vitest run",
     "test:watch": "vitest",
-    "check": "npm run typecheck && npm run lint && npm run test",
-    "docs:legal": "node scripts/export-legal.mjs"
+    "check": "npm run typecheck && npm run lint && npm run test"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",

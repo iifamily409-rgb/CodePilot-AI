@@ -168,7 +168,7 @@ export async function discoverModels(
       capabilities: {},
       source: local ? "local" : "catalog_unverified",
       notes: local
-        ? "Local endpoint: no per-token charge from CodePilot AI."
+        ? "Local endpoint: no per-token charge from X-Flex."
         : "This endpoint publishes no pricing metadata. Confirm zero cost with your provider, then mark it verified free.",
     })),
     source: "openai_compatible_models",

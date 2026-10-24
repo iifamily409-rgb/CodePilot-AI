@@ -120,7 +120,7 @@ export function SettingsPanel({ audit }: { audit: Array<{ id: string; action: st
           <input className="cp-input" placeholder='Type "delete my account"' value={confirm} onChange={(e) => setConfirm(e.target.value)} />
           <button type="button" onClick={deleteAccount} disabled={busy === "delete" || !deletePassword} className="cp-btn cp-btn-danger">{busy === "delete" ? <Spinner /> : null}Delete</button>
         </div>
-        <div className="mt-3"><Alert tone="warning" title="Irreversible">Deletion cannot be undone. Audit records may be retained for security purposes as described in the privacy policy.</Alert></div>
+        <div className="mt-3"><Alert tone="warning" title="Irreversible">Deletion cannot be undone. Anonymous audit entries may be retained for security purposes; chats, projects and workspace files are removed.</Alert></div>
       </Card>
     </div>
   );

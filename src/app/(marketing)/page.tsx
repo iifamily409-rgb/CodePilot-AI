@@ -1,115 +1,144 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { CTA, FeatureGrid, Section, Steps, Table } from "@/components/marketing";
-import { Alert } from "@/components/ui";
+import { Alert, Card } from "@/components/ui";
 
 export const metadata: Metadata = {
-  title: "CodePilot AI — free-only, GitHub-connected AI coding platform",
+  title: "X-Flex — a personal AI coding workspace",
 };
+
+const CAPABILITIES = [
+  {
+    title: "Chat that can actually work on code",
+    body: "Ask, Code and Agent modes stream over SSE, call real tools, show every tool result, and persist the conversation.",
+  },
+  {
+    title: "Your providers, your keys",
+    body: "OpenRouter, OpenAI-compatible endpoints, Ollama, or a local OpenCode server. Multiple providers and models per account.",
+  },
+  {
+    title: "Free-only model guard",
+    body: "Every model is classified verified free, local, unverified or paid. Paid and unverified models are blocked in the backend.",
+  },
+  {
+    title: "Only the repositories you pick",
+    body: "GitHub App or OAuth authorization, installation-scoped repositories, branch-aware reads, and publishing to a new branch only.",
+  },
+  {
+    title: "Real files, real checks",
+    body: "Monaco editor, file tree, search, autosave, ZIP export, unified diffs, and an allowlisted local runner for tests and builds.",
+  },
+  {
+    title: "Projects without GitHub",
+    body: "Nine starter templates with working files and tests. Import a repository later if you want to publish.",
+  },
+];
 
 export default function HomePage() {
   return (
     <>
       <section className="cp-grid-bg border-b border-border">
-        <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 md:py-24 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+        <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 md:py-24 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
             <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs text-muted">
               <span className="h-1.5 w-1.5 rounded-full bg-success" />
-              Free-only policy enforced in the backend
+              Personal-use build · free-only policy enforced server-side
             </p>
             <h1 className="text-4xl font-bold leading-[1.08] tracking-tight md:text-6xl">
-              Imagine. Code. <span className="bg-linear-to-r from-accent to-violet bg-clip-text text-transparent">Verify.</span>
+              Your own AI coding workspace.
             </h1>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted">
-              CodePilot AI is a working, self-hostable coding workspace: chat with an agent, read the repositories you
-              authorize, edit real files, run real test commands, inspect the diff, and publish only after you approve it.
+              X-Flex is a self-hosted coding assistant you run for yourself. Chat with an agent, connect the repositories
+              you authorize, edit real files, run tests, and review the diff before anything leaves your machine.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <Link href="/sign-up" className="cp-btn cp-btn-primary">Create a free account</Link>
-              <Link href="/getting-started" className="cp-btn cp-btn-ghost">Self-host in minutes</Link>
+              <Link href="/sign-up" className="cp-btn cp-btn-primary">Create your account</Link>
+              <Link href="/getting-started" className="cp-btn cp-btn-ghost">Set it up locally</Link>
             </div>
             <p className="mt-4 text-xs text-muted">
-              No subscription, no ads, no checkout. You supply the model provider (a verified-free API or a local runtime).
+              No subscription, ads, checkout, or mandatory hosted service. You bring a free model or a local runtime.
             </p>
           </div>
+
           <div className="cp-card overflow-hidden p-0">
             <div className="flex items-center gap-1.5 border-b border-border bg-surface2 px-4 py-2.5">
               <span className="h-2.5 w-2.5 rounded-full bg-danger/70" />
               <span className="h-2.5 w-2.5 rounded-full bg-warning/70" />
               <span className="h-2.5 w-2.5 rounded-full bg-success/70" />
-              <span className="ml-2 text-xs text-muted">agent task · verify</span>
+              <span className="ml-2 text-xs text-muted">local run · agent mode</span>
             </div>
-            <div className="space-y-3 p-4 font-mono text-xs leading-relaxed">
-              <p className="text-muted">$ plan: fix failing test in src/router.js</p>
-              <p><span className="text-accent">read_file</span> src/router.js <span className="text-success">ok</span></p>
+            <div className="space-y-2.5 p-4 font-mono text-[11px] leading-relaxed sm:text-xs">
+              <p className="text-muted">you: find the bug and make the tests pass</p>
+              <p><span className="text-accent">read_file</span> src/router.js</p>
               <p><span className="text-accent">run_command</span> npm test <span className="text-danger">exit 1</span></p>
-              <p className="text-muted">Expected 200, received 404 — route table missing /api/health.</p>
-              <p><span className="text-accent">write_file</span> src/router.js <span className="text-success">ok</span></p>
+              <p className="text-muted">route table is missing /api/health</p>
+              <p><span className="text-accent">write_file</span> src/router.js</p>
               <p><span className="text-accent">run_command</span> npm test <span className="text-success">exit 0</span></p>
-              <p className="text-muted">3 files changed · awaiting your approval before publishing</p>
+              <p className="text-muted">1 file changed · awaiting your approval</p>
             </div>
           </div>
         </div>
       </section>
 
-      <Section
-        title="A complete loop, not a landing page"
-        description="Each part of CodePilot AI maps to a real capability in this repository. Nothing here is a mock-up, and the platform never claims work succeeded unless a command actually returned zero."
-      >
-        <FeatureGrid
-          items={[
-            { title: "Persistent AI chat", body: "Streaming responses, markdown with highlighted code, conversation history you can rename, archive and delete. Ask, Code and Agent modes with visible tool activity." },
-            { title: "Authorized GitHub access", body: "Connect through a GitHub App or OAuth app, pick repositories, browse branches and import a repo into an isolated workspace. Write access is optional and checked again at publish time." },
-            { title: "Free-model enforcement", body: "A server-side eligibility engine classifies every model as verified free, local, unverified or paid. Unverified and paid models are blocked on every path, including retries and background tasks." },
-            { title: "Real workspace editing", body: "Monaco editor, file tree, multi-file search, autosave, rename and delete, plus ZIP export. Files live on disk in your own deployment." },
-            { title: "Bounded execution", body: "Run an allowlist of test, lint, typecheck and build commands with timeouts, output caps, a scrubbed environment, and network-namespace isolation where the host supports it." },
-            { title: "Review before publish", body: "Every change is a real unified diff with test output. Publishing creates a new branch and an optional pull request. Direct commits to the default branch are refused." },
-          ]}
-        />
-      </Section>
+      <section className="mx-auto max-w-6xl px-5 py-14">
+        <h2 className="text-2xl font-semibold md:text-3xl">What works today</h2>
+        <p className="mt-3 max-w-2xl text-muted">
+          Everything below maps to real code in this repository. Nothing is a placeholder button, and no result is reported
+          as successful unless a command actually returned zero.
+        </p>
+        <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {CAPABILITIES.map((item) => (
+            <Card key={item.title}>
+              <h3 className="font-semibold">{item.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted">{item.body}</p>
+            </Card>
+          ))}
+        </div>
+      </section>
 
-      <Section title="Three modes, one conversation" description="Switch modes without losing context. The same chat can explain a repository, then implement a fix, then verify it." className="border-y border-border bg-bgsoft">
-        <Table
-          head={["Mode", "What it can do", "What it cannot do"]}
-          rows={[
-            [<strong key="a">Ask</strong>, "Explain code, research live documentation, review a repository, suggest a plan.", "Write files or execute commands."],
-            [<strong key="b">Code</strong>, "Read and write workspace files, run allowed checks, and present the diff for review.", "Delete files, publish to GitHub, or bypass the review step."],
-            [<strong key="c">Agent</strong>, "Plan multi-step work, research when needed, edit, test, repair failures, and prepare a change record.", "Publish, force-push, or widen repository permissions."],
-          ]}
-        />
-      </Section>
+      <section className="border-y border-border bg-bgsoft">
+        <div className="mx-auto grid max-w-6xl gap-8 px-5 py-14 lg:grid-cols-2">
+          <div>
+            <h2 className="text-2xl font-semibold">Free-only by construction</h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted">
+              Classification uses provider metadata, and the eligibility check runs in the backend for chat, retries,
+              agent steps and background tasks. A direct API call naming a paid model receives HTTP 403.
+            </p>
+            <ul className="mt-4 space-y-2 text-sm text-muted">
+              <li><span className="text-success">●</span> Verified free — catalog reports 0 input and 0 output price.</li>
+              <li><span className="text-accent">●</span> Local — Ollama or a loopback compatible runtime.</li>
+              <li><span className="text-warning">●</span> Unverified pricing — blocked, with an explanation.</li>
+              <li><span className="text-danger">●</span> Paid — blocked on every path.</li>
+            </ul>
+          </div>
+          <div>
+            <h2 className="text-2xl font-semibold">Local first, publishing later</h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted">
+              Development only needs Node.js and a writable data directory. Nothing has to be exposed to the internet,
+              and no hosting or email service is required. Deployment advice lives in the docs, separate from the local
+              setup, so you can decide later whether to publish an instance.
+            </p>
+            <pre className="mt-4 overflow-x-auto rounded-xl border border-border bg-[var(--code-bg)] p-4 text-xs leading-relaxed"><code>{`npm install\ncp .env.example .env\nnpm run db:migrate\nnpm run dev`}</code></pre>
+          </div>
+        </div>
+      </section>
 
-      <Section title="How a task actually runs" description="No hidden execution layer. Every tool call is visible in the chat, including failures.">
-        <Steps
-          steps={[
-            { title: "Choose a workspace", body: "Select a project or an authorized repository branch. The agent receives a compact file tree, not your credentials." },
-            { title: "Select an eligible model", body: "Pick a verified-free or local model. If none exists, the request is refused with setup instructions instead of falling back to a paid one." },
-            { title: "Work with real tools", body: "Read, search, write, and run an allowlisted command in the workspace. Outputs, exit codes and research citations appear inline." },
-            { title: "Approve the diff", body: "The review screen shows changed files, added/removed lines, test output and the destination branch before anything leaves your server." },
-          ]}
-        />
-        <div className="mt-6">
-          <Alert tone="warning" title="Honest limitations">
-            Execution is a local runner on the CodePilot AI host, not a hardened multi-tenant sandbox. Run the platform in a
-            container or dedicated machine, keep <code>EXECUTION_ENABLED</code> off on shared hosts, and use the browser preview
-            only for static HTML. Third-party providers impose their own quotas and can remove free models at any time.
+      <section className="mx-auto max-w-6xl px-5 py-14">
+        <div className="grid gap-4 md:grid-cols-2">
+          <Alert tone="warning" title="Honest limits">
+            Execution is a bounded local runner on the host, not a hardened multi-tenant sandbox. Keep it disabled on any
+            machine you share. Background tasks run in-process and do not survive a restart. Third-party providers can
+            change quotas or withdraw free models at any time.
+          </Alert>
+          <Alert tone="info" title="What you need to configure">
+            GitHub is optional, and so is web research. Chat needs at least one eligible model: an OpenRouter key with a
+            zero-price model, or a local Ollama/OpenCode runtime. Everything else works without external accounts.
           </Alert>
         </div>
-      </Section>
-
-      <Section title="Built for a real deployment" description="A single Next.js application with SQLite persistence, so you can run it locally, on a small VPS, or in a container without a mandatory paid service.">
-        <FeatureGrid
-          columns={2}
-          items={[
-            { title: "One process, one database file", body: "SQLite in WAL mode with versioned migrations. No managed database subscription required, and no external queue in the default architecture." },
-            { title: "Local runtimes welcome", body: "Ollama and OpenAI-compatible local endpoints are supported directly. Loopback hosts are allowlisted for providers, while SSRF protection blocks other private ranges and metadata endpoints." },
-            { title: "Credentials encrypted at rest", body: "Provider keys and GitHub tokens are encrypted with AES-256-GCM derived from APP_SECRET. They are never returned to the browser or written to logs." },
-            { title: "MIT licensed", body: "Read, modify and self-host the source. The free-only operating policy is a product commitment, not a license restriction." },
-          ]}
-        />
-      </Section>
-
-      <CTA />
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Link href="/sign-up" className="cp-btn cp-btn-primary">Create an account</Link>
+          <Link href="/docs" className="cp-btn cp-btn-ghost">Read the documentation</Link>
+        </div>
+      </section>
     </>
   );
 }

@@ -147,7 +147,7 @@ export async function runCommand(
   if (!config.enabled) {
     throw Object.assign(
       new Error(
-        "Code execution is disabled on this server. Set EXECUTION_ENABLED=1 to enable the local runner (run CodePilot AI in a container or dedicated host).",
+        "Code execution is disabled on this server. Set EXECUTION_ENABLED=1 to enable the local runner (run X-Flex in a container or dedicated host).",
       ),
       { status: 403 },
     );

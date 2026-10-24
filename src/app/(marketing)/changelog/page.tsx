@@ -5,21 +5,32 @@ export const metadata: Metadata = { title: "Changelog" };
 
 const RELEASES = [
   {
+    version: "0.2.0",
+    date: "2026-10-24",
+    title: "X-Flex personal build",
+    changes: [
+      "Project renamed to X-Flex and trimmed to the application itself.",
+      "Removed the legal/marketing surface: Terms, Privacy, Acceptable Use, support and sales pages are gone.",
+      "Public site reduced to a landing page, documentation, local setup and this changelog.",
+      "Data directory and cookie names moved to the X-Flex naming; APP_SECRET and provider credentials behave the same.",
+      "One-click Ollama preset in Provider Manager.",
+      "Chat falls back visibly to an eligible model when a saved conversation points at an ineligible one.",
+      "Local development is documented separately from optional public deployment.",
+    ],
+  },
+  {
     version: "0.1.0",
     date: "2026-10-24",
     title: "First functional build",
     changes: [
       "Session authentication, SQLite migrations and per-user ownership checks.",
-      "GitHub App/OAuth authorization, repository sync, branch listing and import.",
-      "Provider manager for OpenRouter, OpenAI-compatible endpoints, Ollama and the OpenCode server.",
-      "Server-enforced free-only model policy with verified free, local, unverified and paid classifications.",
-      "Streaming chat with Ask, Code and Agent modes, tool events, citations and persisted history.",
-      "Model explorer with live catalog refresh and capability filters based on catalog metadata.",
-      "Web research adapters: SearXNG, Brave, Tavily and a DuckDuckGo fallback.",
-      "Projects with starter templates, Monaco editor, search, autosave, ZIP export and static preview.",
-      "Allowlisted execution runner with timeouts, output caps and optional network isolation.",
-      "Diff review, approval gate, new-branch commits and pull request preparation.",
-      "Public site, legal drafts and operator documentation."
+      "GitHub authorization, repository sync, branch listing and import.",
+      "Providers for OpenRouter, OpenAI-compatible endpoints, Ollama and OpenCode.",
+      "Server-enforced free-only model policy with pricing classification.",
+      "Streaming chat with Ask, Code and Agent modes, tool events, citations and history.",
+      "Model explorer, live catalog refresh, web research adapters.",
+      "Projects with templates, Monaco editor, ZIP export and static preview.",
+      "Allowlisted execution runner, diff review, approval gate and branch/PR publishing.",
     ],
   },
 ];
@@ -29,8 +40,8 @@ export default function ChangelogPage() {
     <>
       <PageHero
         eyebrow="Changelog"
-        title="What changed, without marketing language"
-        description="Only shipped work is listed here. Entries describe behaviour that exists in the repository at that version."
+        title="What changed"
+        description="Only shipped behaviour is listed. There are no fabricated benchmarks or roadmap promises."
       />
       <Section>
         <div className="space-y-6">

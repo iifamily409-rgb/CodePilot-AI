@@ -177,7 +177,7 @@ export async function searchWeb(query: string, limit = 6): Promise<ResearchResul
 /** Fetch a page for deeper research, treating the content as untrusted data. */
 export async function fetchPage(url: string): Promise<{ title: string; url: string; text: string }> {
   const res = await safeRequest(url, {
-    headers: { accept: "text/html,application/xhtml+xml", "user-agent": "CodePilotAI-Research/0.1" },
+    headers: { accept: "text/html,application/xhtml+xml", "user-agent": "X-Flex-Research/0.1" },
     timeoutMs: 20_000,
     maxRedirects: 3,
   });

@@ -88,7 +88,7 @@ export async function publishChange(
   const committed = await commitToNewBranch(token, repository.full_name, {
     baseBranch: project.default_branch || repository.default_branch,
     newBranch: branch,
-    message: `${input.commitMessage.trim()}\n\nGenerated with CodePilot AI (free-only policy).`,
+    message: `${input.commitMessage.trim()}\n\nGenerated with X-Flex (free-only policy).`,
     files,
   });
 
@@ -100,7 +100,7 @@ export async function publishChange(
       base: project.default_branch || repository.default_branch,
       body:
         input.prBody ??
-        `Prepared with CodePilot AI.\n\nFiles changed: ${publishable.length}.\n\nReview the diff and test output before merging.`,
+        `Prepared with X-Flex.\n\nFiles changed: ${publishable.length}.\n\nReview the diff and test output before merging.`,
     });
     prUrl = pr.html_url;
   }

@@ -6,11 +6,8 @@ import { Logo, cx } from "./ui";
 import { ThemeToggle } from "./theme-toggle";
 
 const LINKS = [
-  { href: "/features", label: "Features" },
-  { href: "/how-it-works", label: "How it works" },
   { href: "/docs", label: "Docs" },
-  { href: "/integrations", label: "Integrations" },
-  { href: "/security", label: "Security" },
+  { href: "/getting-started", label: "Setup" },
   { href: "/changelog", label: "Changelog" },
 ];
 
@@ -19,7 +16,7 @@ export function SiteHeader({ signedIn = false }: { signedIn?: boolean }) {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-bg/85 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
-        <Link href="/"><Logo /></Link>
+        <Link href="/" aria-label="X-Flex home"><Logo /></Link>
         <nav className="hidden items-center gap-5 text-sm text-muted md:flex">
           {LINKS.map((link) => (
             <Link key={link.href} href={link.href} className="hover:text-fg">{link.label}</Link>
