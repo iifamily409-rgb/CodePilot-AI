@@ -1,7 +1,6 @@
 import "server-only";
 import http from "node:http";
 import https from "node:https";
-import dns from "node:dns/promises";
 import net from "node:net";
 import type { IncomingMessage } from "node:http";
 import { assertUrlAllowed, NetworkPolicyError, type UrlPolicy } from "./url-policy";
@@ -83,19 +82,16 @@ function singleRequest(
   return new Promise((resolve, reject) => {
     const transport = url.protocol === "https:" ? https : http;
     let settled = false;
-    const pinned = addresses.filter((a) => net.isIP(a) > 0);
-    const lookup: any = (_host: string, options: any, cb: any) => {
-      const done = typeof options === "function" ? options : cb;
-      const target = !isLocal && pinned.length > 0 ? pinned[0] : null;
-      if (target) {
-        done(null, target, net.isIP(target) === 6 ? 6 : 4);
-        return;
-      }
-      dns
-        .lookup(url.hostname, { family: 0 })
-        .then((r) => done(null, r.address, r.family))
-        .catch((err) => done(err));
-    };
+    // Pin public connections to the address that was validated above,
+    // defeating DNS rebinding between validation and connection. Local
+    // runtimes resolve normally (they are explicitly allowlisted loopback).
+    const pinned = !isLocal ? addresses.filter((a) => net.isIP(a) > 0) : [];
+    const lookup: any = pinned.length
+      ? (_host: string, options: any, cb: any) => {
+          const done = typeof options === "function" ? options : cb;
+          done(null, pinned[0], net.isIP(pinned[0]) === 6 ? 6 : 4);
+        }
+      : undefined;
     const req = transport.request(
       {
         protocol: url.protocol,
@@ -104,7 +100,7 @@ function singleRequest(
         path: `${url.pathname}${url.search}`,
         method: opts.method,
         headers: { "user-agent": "CodePilotAI/0.1", ...opts.headers },
-        lookup,
+        ...(lookup ? { lookup } : {}),
         servername: url.protocol === "https:" ? url.hostname : undefined,
         timeout: opts.timeoutMs,
         maxHeaderSize: 64 * 1024,

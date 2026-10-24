@@ -4,7 +4,7 @@ import { providerCredentials } from "./http";
 import { eligibleModels, resolveEligibleModel } from "./eligibility";
 import { maxSteps, type AgentMode } from "./modes";
 import { executeTool, toolSchemas } from "./tools";
-import type { ChatMessage, StreamDelta, ToolCall } from "./types";
+import type { ChatMessage, ToolCall } from "./types";
 import type { SearchHit } from "../research/html";
 
 export type AgentEvent =
@@ -67,9 +67,8 @@ export async function runAgent(input: RunAgentInput): Promise<RunAgentResult> {
 
   for (let step = 0; step < maxSteps(input.mode); step++) {
     if (input.signal.aborted) break;
-    const credentials = providerCredentials(current.provider);
     let textThisStep = "";
-    let calls: ToolCall[] = [];
+    const calls: ToolCall[] = [];
     let failure: string | null = null;
 
     const attempt = async (candidate: typeof current): Promise<void> => {

@@ -9,7 +9,7 @@ export const POST = route(async (request: Request, ctx: { params: Promise<{ id: 
   const auth = await requireAuth();
   await assertCsrf(request, auth);
   const body = await parseJson(request, z.object({ decision: z.enum(["approved", "rejected"]) }));
-  decideChange(auth.user.id, id, body.decision);
+  await decideChange(auth.user.id, id, body.decision);
   audit(request, auth.user.id, `change.${body.decision}`, id);
   return json({ ok: true, status: body.decision });
 });

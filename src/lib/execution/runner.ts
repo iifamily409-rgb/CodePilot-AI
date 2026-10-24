@@ -25,6 +25,7 @@ export type CommandSpec = { bin: string; args: string[]; label: string };
 
 export class CommandRejected extends Error {
   status = 400;
+  code = "command_rejected";
 }
 
 function tokenize(command: string): string[] {

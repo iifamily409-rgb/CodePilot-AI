@@ -213,7 +213,7 @@ export function listChanges(userId: string, projectId: string) {
   );
 }
 
-export function decideChange(userId: string, changeId: string, decision: "approved" | "rejected"): void {
+export async function decideChange(userId: string, changeId: string, decision: "approved" | "rejected"): Promise<void> {
   const change = one<any>("SELECT * FROM changes WHERE id = ? AND user_id = ?", changeId, userId);
   if (!change) throw Object.assign(new Error("Change not found."), { status: 404 });
   getDb()
@@ -221,6 +221,6 @@ export function decideChange(userId: string, changeId: string, decision: "approv
     .run(decision, nowIso(), changeId);
   if (decision === "approved") {
     // Accepting a change makes the current workspace the new review baseline.
-    snapshotBaseline(userId, change.project_id);
+    await snapshotBaseline(userId, change.project_id);
   }
 }

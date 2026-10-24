@@ -76,7 +76,7 @@ export function providerUrlPolicy(): UrlPolicy {
 
 export async function assertUrlAllowed(
   rawUrl: string,
-  policy: UrlPolicy = {},
+  policy: UrlPolicy = { allowPrivateHosts: [] },
 ): Promise<{ url: URL; addresses: string[]; isLocal: boolean }> {
   let url: URL;
   try {

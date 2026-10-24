@@ -36,7 +36,8 @@ export function handleError(error: unknown): NextResponse {
   );
   console.error("[api]", message);
   const safeStatus = status && status >= 400 && status < 600 ? status : 500;
-  return fail(safeStatus === 500 ? message : message, safeStatus, "server_error");
+  const code = typeof (error as any)?.code === "string" ? (error as any).code : "server_error";
+  return fail(message, safeStatus, code);
 }
 
 /** Wrap a route handler with consistent error handling. */

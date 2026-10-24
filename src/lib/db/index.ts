@@ -9,7 +9,6 @@ import { migrations } from "./migrations";
 export type DB = Database.Database;
 
 declare global {
-  // eslint-disable-next-line no-var
   var __codepilotDb: DB | undefined;
 }
 

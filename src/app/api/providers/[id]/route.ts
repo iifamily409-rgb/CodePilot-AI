@@ -2,7 +2,7 @@ import { z } from "zod";
 import { assertCsrf, requireAuth } from "@/lib/auth";
 import { ApiError, json, parseJson, route } from "@/lib/api";
 import { deleteProvider, getProvider, updateProvider } from "@/lib/providers";
-import { publicProvider } from "../route";
+import { publicProvider } from "@/lib/provider-view";
 import { audit } from "@/lib/audit";
 import { PROVIDER_PROTOCOLS } from "@/lib/ai/types";
 
