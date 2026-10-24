@@ -9,7 +9,7 @@ Recorded against a production build (`npm run build` → `npm start`) on 2026-10
 | `npm run typecheck` | Passed (no errors) |
 | `npm run lint` | Passed (0 errors, 2 warnings: generated-config style and image hint) |
 | `npm test` | **51 passed / 51** across 6 files |
-| `npm run build` | Passed (Next.js 15.5.28, 38 route handlers, SSG legal pages) |
+| `npm run build` | Passed (Next.js 15.5.28, 39 route handlers, SSG legal pages) |
 | `npm run db:migrate` | Applied migrations 1–2, idempotent on rerun |
 
 ## Live API / page checks
